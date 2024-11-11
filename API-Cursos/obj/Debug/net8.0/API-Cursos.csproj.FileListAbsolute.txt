@@ -1,0 +1,5 @@
+C:\Users\lucas\OneDrive\Documentos\programacion2\API-Cursos\obj\Debug\net8.0\API-Cursos.csproj.AssemblyReference.cache
+C:\Users\lucas\OneDrive\Documentos\programacion2\API-Cursos\obj\Debug\net8.0\API-Cursos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\lucas\OneDrive\Documentos\programacion2\API-Cursos\obj\Debug\net8.0\API-Cursos.AssemblyInfoInputs.cache
+C:\Users\lucas\OneDrive\Documentos\programacion2\API-Cursos\obj\Debug\net8.0\API-Cursos.AssemblyInfo.cs
+C:\Users\lucas\OneDrive\Documentos\programacion2\API-Cursos\obj\Debug\net8.0\API-Cursos.csproj.CoreCompileInputs.cache

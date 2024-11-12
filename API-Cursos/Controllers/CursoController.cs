@@ -1,41 +1,47 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using api_biblioteca.Models;
+using System.Threading.Tasks;
+using API_Cursos_Online.Interfaces;
+using API_Cursos_Online.DTOs;
 
-namespace api_biblioteca.Controllers
+[Authorize(Roles = "Profesor")]
+[Route("api/[controller]")]
+[ApiController]
+public class CursoController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class CursoController : ControllerBase
+    private readonly ICursoService _cursoService;
+
+    public CursoController(ICursoService cursoService)
     {
-        private readonly ApplicationDbContext _context;
+        _cursoService = cursoService;
+    }
 
-        public CursoController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+    [HttpPost]
+    public async Task<IActionResult> CrearCurso(CrearCursoDTO dto)
+    {
+        await _cursoService.CrearCurso(dto);
+        return Ok("Curso creado exitosamente");
+    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCursos()
-        {
-            return Ok(await _context.Cursos.Include(c => c.Profesor).Include(c => c.Estudiantes).ToListAsync());
-        }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> ActualizarCurso(int id, ActualizarCursoDTO dto)
+    {
+        await _cursoService.ActualizarCurso(id, dto);
+        return Ok("Curso actualizado exitosamente");
+    }
 
-        [HttpPost]
-        [Authorize(Roles = "Profesor")]
-        public async Task<IActionResult> CrearCurso(Curso curso)
-        {
-            if (curso.Estudiantes.Count > 100)
-            {
-                return BadRequest("No se puede inscribir más de 100 estudiantes en un curso.");
-            }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> EliminarCurso(int id)
+    {
+        await _cursoService.EliminarCurso(id);
+        return Ok("Curso eliminado exitosamente");
+    }
 
-            _context.Cursos.Add(curso);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetCursos), new { id = curso.Id }, curso);
-        }
-
-        // Otros métodos (Actualizar, Eliminar, etc.)...
+    [Authorize(Roles = "Estudiante")]
+    [HttpPost("{id}/inscribir")]
+    public async Task<IActionResult> InscribirEstudiante(int id, InscripcionDTO dto)
+    {
+        await _cursoService.InscribirEstudiante(id, dto.EstudianteId);
+        return Ok("Estudiante inscrito exitosamente");
     }
 }

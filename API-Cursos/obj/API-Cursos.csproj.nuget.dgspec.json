@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\migue\\Desktop\\Prog 2\\Proyect 3\\programacion2\\API-Cursos\\API-Cursos.csproj": {}
+    "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\migue\\Desktop\\Prog 2\\Proyect 3\\programacion2\\API-Cursos\\API-Cursos.csproj": {
+    "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyect 3\\programacion2\\API-Cursos\\API-Cursos.csproj",
+        "projectUniqueName": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj",
         "projectName": "API-Cursos",
-        "projectPath": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyect 3\\programacion2\\API-Cursos\\API-Cursos.csproj",
-        "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyect 3\\programacion2\\API-Cursos\\obj\\",
+        "projectPath": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj",
+        "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\lucas\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -55,9 +55,19 @@
               "target": "Package",
               "version": "[8.0.8, )"
             },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[8.0.10, )"
+              "version": "[9.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

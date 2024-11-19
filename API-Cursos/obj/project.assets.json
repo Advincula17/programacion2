@@ -5082,19 +5082,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\lucas\\.nuget\\packages\\": {}
+    "C:\\Users\\migue\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj",
+      "projectUniqueName": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyec 5 GIT\\programacion2\\API-Cursos\\API-Cursos.csproj",
       "projectName": "API-Cursos",
-      "projectPath": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\API-Cursos.csproj",
-      "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucas\\Documents\\prog31\\programacion2\\API-Cursos\\obj\\",
+      "projectPath": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyec 5 GIT\\programacion2\\API-Cursos\\API-Cursos.csproj",
+      "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\migue\\Desktop\\Prog 2\\Proyec 5 GIT\\programacion2\\API-Cursos\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lucas\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

@@ -9,8 +9,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-
-
 namespace API_Cursos_Online.Services
 {
     public class ProfesorService : IProfesorService
@@ -38,13 +36,19 @@ namespace API_Cursos_Online.Services
 
         public async Task<string> Login(LoginDTO dto)
         {
+            // Buscar al profesor por correo electrónico
             var profesor = await _context.Profesores
                 .FirstOrDefaultAsync(p => p.Email == dto.Email);
 
             if (profesor == null || !BCrypt.Net.BCrypt.Verify(dto.Password, profesor.PasswordHash))
                 throw new Exception("Credenciales inválidas");
 
-            // Generar token JWT
+            // Validar configuraciones JWT
+            var keyValue = _configuration["Jwt:Key"] ?? throw new Exception("La clave JWT (Jwt:Key) no está configurada.");
+            var issuer = _configuration["Jwt:Issuer"] ?? throw new Exception("El emisor (Jwt:Issuer) no está configurado.");
+            var audience = _configuration["Jwt:Audience"] ?? throw new Exception("La audiencia (Jwt:Audience) no está configurada.");
+
+            // Definir los claims del profesor
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, profesor.Id.ToString()),
@@ -52,17 +56,34 @@ namespace API_Cursos_Online.Services
                 new Claim(ClaimTypes.Role, "Profesor")
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            // Generar clave de seguridad y credenciales de firma
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyValue));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(60),
-                signingCredentials: creds);
+            // Generar el token JWT
+            try
+            {
+                var token = new JwtSecurityToken(
+                    issuer: issuer,
+                    audience: audience,
+                    claims: claims,
+                    expires: DateTime.Now.AddMinutes(60),
+                    signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+                // Mensajes de depuración para inspección
+                Console.WriteLine("Token generado correctamente para el profesor:");
+                Console.WriteLine($"Nombre: {profesor.Nombre}");
+                Console.WriteLine($"Email: {profesor.Email}");
+                Console.WriteLine($"ID: {profesor.Id}");
+                Console.WriteLine($"Token: {new JwtSecurityTokenHandler().WriteToken(token)}");
+
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al generar el token: {ex.Message}");
+                throw;
+            }
         }
     }
 }

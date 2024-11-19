@@ -9,7 +9,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace API_Cursos_Online.Services
 {
     public class EstudianteService : IEstudianteService
@@ -33,15 +32,24 @@ namespace API_Cursos_Online.Services
             };
             _context.Estudiantes.Add(estudiante);
             await _context.SaveChangesAsync();
+
+            // Mensaje de depuración en consola
+            Console.WriteLine($"Estudiante registrado correctamente: {estudiante.Nombre} ({estudiante.Email})");
         }
 
         public async Task<string> Login(LoginDTO dto)
         {
+            // Buscar al estudiante por correo electrónico
             var estudiante = await _context.Estudiantes
                 .FirstOrDefaultAsync(e => e.Email == dto.Email);
 
             if (estudiante == null || !BCrypt.Net.BCrypt.Verify(dto.Password, estudiante.PasswordHash))
                 throw new Exception("Credenciales inválidas");
+
+            // Verificar configuraciones del JWT
+            var keyValue = _configuration["Jwt:Key"] ?? throw new Exception("La clave JWT (Jwt:Key) no está configurada.");
+            var issuer = _configuration["Jwt:Issuer"] ?? throw new Exception("El emisor (Jwt:Issuer) no está configurado.");
+            var audience = _configuration["Jwt:Audience"] ?? throw new Exception("La audiencia (Jwt:Audience) no está configurada.");
 
             // Generar token JWT
             var claims = new[]
@@ -51,15 +59,22 @@ namespace API_Cursos_Online.Services
                 new Claim(ClaimTypes.Role, "Estudiante")
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            // Generar clave y credenciales de firma
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyValue));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: issuer,
+                audience: audience,
                 claims: claims,
                 expires: DateTime.Now.AddMinutes(60),
                 signingCredentials: creds);
+
+            // Mensaje de depuración en consola
+            Console.WriteLine("Token generado correctamente para el estudiante:");
+            Console.WriteLine($"Nombre: {estudiante.Nombre}");
+            Console.WriteLine($"Email: {estudiante.Email}");
+            Console.WriteLine($"ID: {estudiante.Id}");
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
